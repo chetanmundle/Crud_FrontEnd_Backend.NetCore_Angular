@@ -1,0 +1,41 @@
+<div>
+  <div class="text-decoration-underline text-center text-success my-3">
+    <h1>Get Api Fetch</h1>
+    <h5>
+      <button (click)="getAllStudent()" class="btn-success btn mt-3">
+        Get All Students
+      </button>
+    </h5>
+  </div>
+  <table class="table m-5">
+    <thead>
+      <tr>
+        <th>StudentId</th>
+        <th>FirstName</th>
+        <th>LastName</th>
+        <th>UserName</th>
+        <th>City</th>
+        <th>State</th>
+        <th>Zip</th>
+        <th>isChecked</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (st of studentList; track $index) {
+      <tr>
+        <td>{{st.studentId}}</td>
+        <td>{{st.firstName}}</td>
+        <td>{{st.lastName}}</td>
+        <td>{{st.userName}}</td>
+        <td>{{st.city}}</td>
+        <td>{{st.state}}</td>
+        <td>{{st.zip}}</td>
+        <td>{{st.isChecked}}</td>
+      </tr>
+      }
+    </tbody>
+  </table>
+  <!-- <div>
+    {{ studentList | json }}
+  </div> -->
+</div>

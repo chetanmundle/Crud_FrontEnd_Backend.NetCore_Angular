@@ -1,0 +1,127 @@
+<div>
+  <h2 class="text-decoration-underline text-success text-center my-4">
+    Put / Update Api Fetch
+  </h2>
+</div>
+
+<form class="row g-3 needs-validation">
+  <div class="col-md-4">
+    <label for="validationCustom01" class="form-label">First name</label>
+    <input
+      type="text"
+      class="form-control"
+      [(ngModel)]="studentObj.firstName"
+      name="firstName"
+    />
+  </div>
+
+  <div class="col-md-4">
+    <label for="validationCustom02" class="form-label">Last name</label>
+    <input
+      type="text"
+      class="form-control"
+      [(ngModel)]="studentObj.lastName"
+      name="lastName"
+    />
+  </div>
+
+  <div class="col-md-4">
+    <label for="validationCustomUsername" class="form-label">Username</label>
+    <div class="input-group has-validation">
+      <span class="input-group-text" id="inputGroupPrepend">{{ "@" }}</span>
+      <input
+        type="text"
+        class="form-control"
+        [(ngModel)]="studentObj.userName"
+        name="userName"
+      />
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <label for="validationCustom03" class="form-label">City</label>
+    <input
+      type="text"
+      class="form-control"
+      [(ngModel)]="studentObj.city"
+      name="city"
+    />
+  </div>
+
+  <div class="col-md-3">
+    <label for="validationCustom04" class="form-label">State</label>
+    <select class="form-select" [(ngModel)]="studentObj.state" name="state">
+      <option selected disabled value="">Choose...</option>
+      <option value="MH">MH</option>
+      <option value="GU">GU</option>
+      <option value="TL">TL</option>
+      <option value="Dl">DL</option>
+      <option value="HR">HR</option>
+    </select>
+  </div>
+
+  <div class="col-md-3">
+    <label for="validationCustom05" class="form-label">Zip</label>
+    <input
+      type="text"
+      class="form-control"
+      [(ngModel)]="studentObj.zip"
+      name="zip"
+    />
+  </div>
+
+  <div class="col-12">
+    <div class="form-check">
+      <input
+        class="form-check-input"
+        type="checkbox"
+        [(ngModel)]="studentObj.isChecked"
+        name="isChecked"
+      />
+      <label class="form-check-label" for="invalidCheck">
+        Agree to terms and conditions
+      </label>
+    </div>
+  </div>
+
+  <div class="col-12">
+    <button class="btn btn-primary" type="submit" (click)="onClickUpdate()">
+      Update
+    </button>
+  </div>
+</form>
+
+<br /><br />
+
+<table class="table m-5">
+  <thead>
+    <tr>
+      <th>StudentId</th>
+      <th>FirstName</th>
+      <th>LastName</th>
+      <th>UserName</th>
+      <th>City</th>
+      <th>State</th>
+      <th>Zip</th>
+      <th>isChecked</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (st of studentList; track $index) {
+    <tr>
+      <td>{{ st.studentId }}</td>
+      <td>{{ st.firstName }}</td>
+      <td>{{ st.lastName }}</td>
+      <td>{{ st.userName }}</td>
+      <td>{{ st.city }}</td>
+      <td>{{ st.state }}</td>
+      <td>{{ st.zip }}</td>
+      <td>{{ st.isChecked }}</td>
+      <td>
+        <button class="btn btn-warning" (click)="onClickEdit(st)">Edit</button>
+      </td>
+    </tr>
+    }
+  </tbody>
+</table>

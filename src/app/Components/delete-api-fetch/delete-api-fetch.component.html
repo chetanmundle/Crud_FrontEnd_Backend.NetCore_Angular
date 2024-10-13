@@ -1,0 +1,38 @@
+<div>
+  <h1 class="text-danger text-center">Delete Api Fetch</h1>
+</div>
+
+<table class="table m-5">
+  <thead>
+    <tr>
+      <th>StudentId</th>
+      <th>FirstName</th>
+      <th>LastName</th>
+      <th>UserName</th>
+      <th>City</th>
+      <th>State</th>
+      <th>Zip</th>
+      <th>isChecked</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (st of studentList; track $index) {
+    <tr>
+      <td>{{ st.studentId }}</td>
+      <td>{{ st.firstName }}</td>
+      <td>{{ st.lastName }}</td>
+      <td>{{ st.userName }}</td>
+      <td>{{ st.city }}</td>
+      <td>{{ st.state }}</td>
+      <td>{{ st.zip }}</td>
+      <td>{{ st.isChecked }}</td>
+      <td>
+        <button class="btn btn-danger" (click)="onClickDelete(st.studentId)">
+          Delete
+        </button>
+      </td>
+    </tr>
+    }
+  </tbody>
+</table>
