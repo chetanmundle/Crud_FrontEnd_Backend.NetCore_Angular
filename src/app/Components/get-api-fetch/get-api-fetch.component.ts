@@ -1,6 +1,7 @@
 import { JsonPipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, inject, OnInit } from '@angular/core';
+import { StudentService } from '../../Services/student.service';
 
 @Component({
   selector: 'app-get-api-fetch',
@@ -19,17 +20,32 @@ export class GetApiFetchComponent implements OnInit {
     this.getAllStudent();
   }
 
+  studentService = inject(StudentService);
   studentList: any[] = [];
 
   getAllStudent() {
-    this.http.get('https://localhost:7169/api/Student').subscribe(
-      (result: any) => {
-        this.studentList = result;
+    this.studentService.getAllStudent().subscribe({
+      next: (res: any) => {
+        if (res.status == 200) {
+          this.studentList = res.data;
+        } else {
+          console.log(res);
+        }
       },
-      (error) => {
-        // if error
-        console.log(error);
-      }
-    );
+      error: (err) => {
+        console.log(err);
+      },
+      complete: () => {
+        console.log('Complete Fetach');
+      },
+    });
   }
 }
+
+// (result: any) => {
+//   this.studentList = result;
+// },
+// (error) => {
+//   // if error
+//   console.log(error);
+// }

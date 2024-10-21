@@ -1,7 +1,6 @@
-import { JsonPipe } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { StudentService } from '../../Services/student.service';
 
 @Component({
   selector: 'app-put-api-fetch',
@@ -21,7 +20,7 @@ export class PutApiFetchComponent implements OnInit {
     isChecked: false,
   };
 
-  constructor(private http: HttpClient) {}
+  private studentService = inject(StudentService);
 
   ngOnInit(): void {
     this.getAllStudent();
@@ -30,14 +29,21 @@ export class PutApiFetchComponent implements OnInit {
   studentList: any[] = [];
 
   getAllStudent() {
-    this.http.get('https://localhost:7169/api/Student').subscribe(
-      (result: any) => {
-        this.studentList = result;
+    this.studentService.getAllStudent().subscribe({
+      next: (res: any) => {
+        if (res.status == 200) {
+          this.studentList = res.data;
+        } else {
+          console.log(res);
+        }
       },
-      (error) => {
-        console.log(error);
-      }
-    );
+      error: (err) => {
+        console.log(err);
+      },
+      complete: () => {
+        console.log('Complete Fetach');
+      },
+    });
   }
   d: any;
 
@@ -46,26 +52,29 @@ export class PutApiFetchComponent implements OnInit {
   }
 
   onClickUpdate() {
-    this.http
-      .put('https://localhost:7169/api/Student/UpdateStudent', this.studentObj)
-      .subscribe(
-        (result: any) => {
-          if (result.statusCode) {
-            this.studentObj = {
-              firstName: '',
-              lastName: '',
-              userName: '',
-              city: '',
-              state: '',
-              zip: null,
-              isChecked: false,
-            };
-            alert(result.message);
-          }
-        },
-        (errr) => {
-          console.log('Unable to update Student');
+    this.studentService.updateStudent(this.studentObj).subscribe({
+      next: (res: any) => {
+        if (res.status == 200) {
+          this.studentObj = {
+            firstName: '',
+            lastName: '',
+            userName: '',
+            city: '',
+            state: '',
+            zip: null,
+            isChecked: false,
+          };
+          alert(res.message);
+        } else {
+          console.log('Unable to Update the Data');
         }
-      );
+      },
+      error: (error) => {
+        console.log(error);
+      },
+      complete: () => {
+        console.log('Update Complete');
+      },
+    });
   }
 }

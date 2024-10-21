@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { StudentService } from '../../Services/student.service';
 
 @Component({
   selector: 'app-post-api-fetch',
@@ -22,14 +23,13 @@ export class PostApiFetchComponent {
 
   // stdData: any;
 
-  http = inject(HttpClient);
+  private studentService = inject(StudentService);
 
   onSave() {
     // this.stdData = this.studentObj;
-    this.http
-      .post('https://localhost:7169/api/Student', this.studentObj)
-      .subscribe((result) => {
-        if (result) {
+    this.studentService.createStudent(this.studentObj).subscribe({
+      next: (res: any) => {
+        if (res.status == 200) {
           alert('Data Saved SuccessFully');
           this.studentObj = {
             firstName: '',
@@ -43,6 +43,13 @@ export class PostApiFetchComponent {
         } else {
           alert('Unable to Save Data');
         }
-      });
+      },
+      error: (error) => {
+        console.log(error);
+      },
+      complete: () => {
+        console.log('complete');
+      },
+    });
   }
 }

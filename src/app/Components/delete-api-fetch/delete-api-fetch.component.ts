@@ -1,5 +1,5 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
+import { StudentService } from '../../Services/student.service';
 
 @Component({
   selector: 'app-delete-api-fetch',
@@ -14,31 +14,44 @@ export class DeleteApiFetchComponent implements OnInit {
   }
   studentList: any[] = [];
 
-  constructor(private http: HttpClient) {}
+  studentService = inject(StudentService);
 
   getAllStudents() {
-    this.http
-      .get('https://localhost:7169/api/Student')
-      .subscribe((res: any) => {
-        this.studentList = res;
-      });
+    this.studentService.getAllStudent().subscribe({
+      next: (res: any) => {
+        if (res.status == 200) {
+          this.studentList = res.data;
+        } else {
+          console.log(res);
+        }
+      },
+      error: (err) => {
+        console.log(err);
+      },
+      complete: () => {
+        console.log('Complete Fetach');
+      },
+    });
   }
 
   onClickDelete(StudentId: number) {
-    this.http
-      .delete(`https://localhost:7169/api/Student/DeleteStudent/${StudentId}`)
-      .subscribe(
-        (res: any) => {
-          if (res.statusCode == 200) {
+    if (confirm('Sure! You Want to Delete This Data ')) {
+      this.studentService.deleteStudent(StudentId).subscribe({
+        next: (res: any) => {
+          if (res.status == 200) {
             alert(res.message);
             this.getAllStudents();
           } else {
             console.log('unable to delete Student');
           }
         },
-        (error) => {
+        error: (error) => {
           console.log(error);
-        }
-      );
+        },
+        complete: () => {
+          console.log('Delete Complete');
+        },
+      });
+    }
   }
 }
