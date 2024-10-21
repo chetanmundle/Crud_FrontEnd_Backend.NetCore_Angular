@@ -12,12 +12,12 @@ using System.Threading.Tasks;
 
 namespace App.Core.App.Student.Query
 {
-    public class GetAllStudentQuery : IRequest<List<StudentDto>>
+    public class GetAllStudentQuery : IRequest<object>
     {
 
     }
 
-    public class GetAllStudentQueryHandler : IRequestHandler<GetAllStudentQuery, List<StudentDto>>
+    public class GetAllStudentQueryHandler : IRequestHandler<GetAllStudentQuery, object>
     {
         private readonly IAppDbContext _appDbContext;
 
@@ -26,7 +26,7 @@ namespace App.Core.App.Student.Query
             _appDbContext = appDbContext;
         }
 
-        public async Task<List<StudentDto>> Handle(GetAllStudentQuery request, CancellationToken cancellationToken)
+        public async Task<object> Handle(GetAllStudentQuery request, CancellationToken cancellationToken)
         {
             var studdntList = await _appDbContext.Set<Domain.Entities.Student>()
                          .AsNoTracking()
@@ -34,7 +34,12 @@ namespace App.Core.App.Student.Query
 
             var result = studdntList.Adapt<List<StudentDto>>();
 
-            return result;
+            return new
+            {
+                Status = 200,
+                Message = "Data Fetch Successfully",
+                Data = result
+            };
         }
     }
 }

@@ -36,7 +36,7 @@ namespace App.Core.App.Student.Command
                 return new ResponseDto
                 {
                     Message = "Student is Null",
-                    StatusCode = 400,
+                    Status = 400,
                     Data = null
                 };
             };
@@ -49,7 +49,7 @@ namespace App.Core.App.Student.Command
                 return new ResponseDto
                 {
                     Message = "Student With This id Not Exist",
-                    StatusCode = 404,
+                    Status = 404,
                     Data = null
                 };
             };
@@ -67,7 +67,7 @@ namespace App.Core.App.Student.Command
             return new ResponseDto
             {
                 Message = "Data Updated Successfully",
-                StatusCode = 200,
+                Status = 200,
                 Data = existingStudent
             };
 

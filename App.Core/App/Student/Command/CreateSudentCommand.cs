@@ -1,4 +1,5 @@
 ﻿using App.Core.Interfaces;
+using App.Core.Models.Responses;
 using App.Core.Models.Student;
 using Domain.Entities;
 using Mapster;
@@ -12,12 +13,12 @@ using System.Threading.Tasks;
 
 namespace App.Core.App.Student.Command
 {
-    public class CreateSudentCommand : IRequest<StudentCreateResponseDto>
+    public class CreateSudentCommand : IRequest<ResponseDto>
     {
         public StudentDto StudentDto { get; set; }
     }
 
-    public class CreateSudentCommandHandler : IRequestHandler<CreateSudentCommand, StudentCreateResponseDto>
+    public class CreateSudentCommandHandler : IRequestHandler<CreateSudentCommand, ResponseDto>
     {
         private readonly IAppDbContext _appDbContext;
 
@@ -26,7 +27,7 @@ namespace App.Core.App.Student.Command
             _appDbContext = appDbContext;
         }
 
-        public async Task<StudentCreateResponseDto> Handle(CreateSudentCommand request, CancellationToken cancellationToken)
+        public async Task<ResponseDto> Handle(CreateSudentCommand request, CancellationToken cancellationToken)
         {
             var model = request.StudentDto;
 
@@ -46,7 +47,11 @@ namespace App.Core.App.Student.Command
                 StudentDto = studentDto,
             }; 
 
-            return result;
+            return new ResponseDto
+            {
+                Status = 200,
+                Data = studentDto
+            };
         }
 
         

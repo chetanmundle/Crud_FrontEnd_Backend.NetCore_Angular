@@ -33,7 +33,7 @@ namespace App.Core.App.Student.Command
             if(studentId <= 0) return new ResponseDto
             {
                 Message = "StudentId Not Valid",
-                StatusCode = 400,
+                Status = 400,
                 Data = null
             };
 
@@ -43,7 +43,7 @@ namespace App.Core.App.Student.Command
             if (student is null) return new ResponseDto
             {
                 Message = "Student With this Id not found",
-                StatusCode = 404,
+                Status = 404,
                 Data = null
             };
 
@@ -55,7 +55,7 @@ namespace App.Core.App.Student.Command
             return new ResponseDto
             {
                 Message = "Student Deleted SucessFully",
-                StatusCode = 200
+                Status = 200
             };
            
 
